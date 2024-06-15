@@ -1,1 +1,137 @@
-[]
+- id: '1718230158470'
+  alias: Arrive Home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.sebastien
+    zone: zone.home
+    event: enter
+  condition:
+  - condition: device
+    device_id: aa19be8f22ab428718a42aaf94ee6de7
+    domain: lock
+    entity_id: 439aa723abcd3d3db4053f84285ae9b8
+    type: is_locked
+  action:
+  - device_id: aa19be8f22ab428718a42aaf94ee6de7
+    domain: lock
+    entity_id: 439aa723abcd3d3db4053f84285ae9b8
+    type: unlock
+  - service: light.turn_on
+    metadata: {}
+    data:
+      brightness_pct: 100
+      profile: Natural light
+    target:
+      area_id: bedroom
+      device_id: 81dd569a45987389fbb8ef02884ba98c
+  - service: climate.set_temperature
+    metadata: {}
+    data:
+      hvac_mode: cool
+      temperature: 75
+    target:
+      device_id: 011e017f50b14fc821c12c5bd4190c64
+  - type: turn_on
+    device_id: cd7e0e3e748952002125aa39dcd8aef7
+    entity_id: 8e548c0f1d15f8d87bb664f5f0cc5bc9
+    domain: remote
+  - type: turn_on
+    device_id: f0edf06fdf95a79db190e5046e5d2d07
+    entity_id: 30c38a113bf7289e9a1e8dd2cdb2a525
+    domain: remote
+  mode: single
+- id: '1718250473172'
+  alias: Leave Home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.sebastien
+    zone: zone.home
+    event: leave
+  condition:
+  - condition: device
+    device_id: aa19be8f22ab428718a42aaf94ee6de7
+    domain: lock
+    entity_id: 439aa723abcd3d3db4053f84285ae9b8
+    type: is_unlocked
+  - condition: or
+    conditions:
+    - condition: device
+      device_id: aa19be8f22ab428718a42aaf94ee6de7
+      domain: lock
+      entity_id: 439aa723abcd3d3db4053f84285ae9b8
+      type: is_unlocked
+    - condition: device
+      type: is_on
+      device_id: 81dd569a45987389fbb8ef02884ba98c
+      entity_id: c7dafe3f682619fa50927e179c266067
+      domain: light
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: device
+      type: is_on
+      device_id: 3d3b3e0a4ac78592c647f0aad7c97f51
+      entity_id: 5a07b7c921dd89ec571f96b0693010a1
+      domain: light
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: device
+      type: is_on
+      device_id: cd7e0e3e748952002125aa39dcd8aef7
+      entity_id: 8e548c0f1d15f8d87bb664f5f0cc5bc9
+      domain: remote
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+    - condition: device
+      type: is_on
+      device_id: f0edf06fdf95a79db190e5046e5d2d07
+      entity_id: 30c38a113bf7289e9a1e8dd2cdb2a525
+      domain: remote
+      for:
+        hours: 0
+        minutes: 10
+        seconds: 0
+    - condition: device
+      device_id: 011e017f50b14fc821c12c5bd4190c64
+      domain: climate
+      entity_id: 561ea481bb295df479e6dba4bb680e11
+      type: is_hvac_mode
+      hvac_mode: cool
+  action:
+  - device_id: aa19be8f22ab428718a42aaf94ee6de7
+    domain: lock
+    entity_id: 439aa723abcd3d3db4053f84285ae9b8
+    type: lock
+  - service: light.turn_off
+    data: {}
+    target:
+      area_id:
+      - bedroom
+      - entryway
+      - kitchen
+  - service: climate.set_hvac_mode
+    target:
+      device_id: 011e017f50b14fc821c12c5bd4190c64
+    data:
+      hvac_mode: 'off'
+  - service: climate.set_fan_mode
+    target:
+      device_id: 011e017f50b14fc821c12c5bd4190c64
+    data:
+      fan_mode: Auto
+  - type: turn_off
+    device_id: cd7e0e3e748952002125aa39dcd8aef7
+    entity_id: 8e548c0f1d15f8d87bb664f5f0cc5bc9
+    domain: remote
+  - type: turn_off
+    device_id: f0edf06fdf95a79db190e5046e5d2d07
+    entity_id: 30c38a113bf7289e9a1e8dd2cdb2a525
+    domain: remote
+  mode: single

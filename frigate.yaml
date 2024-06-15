@@ -1,0 +1,43 @@
+mqtt:
+  enabled: true
+  host: core-mosquitto
+  user: mosquitto
+  password: bzzbzzbzz
+
+ffmpeg:
+  hwaccel_args: preset-rpi-64-h264
+
+record:
+  enabled: false
+  retain:
+    days: 7
+    mode: motion
+  events:
+    retain:
+      default: 30
+      mode: motion
+
+
+snapshots:
+  enabled: True
+  retain:
+    default: 30
+
+cameras:
+  rigel_logi:
+    rtmp:
+      enabled: false
+    ffmpeg:
+      inputs:
+        - path: /dev/video0
+          roles:
+            - detect
+        - path: /dev/video1
+          roles:
+            - record
+      input_args: -f v4l2 -avoid_negative_ts make_zero -fflags +genpts+discardcorrupt -use_wallclock_as_timestamps 1
+      output_args:
+        detect: -f rawvideo -pix_fmt yuv420p
+    detect:
+      width: 640
+      height: 480
