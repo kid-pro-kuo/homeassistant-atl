@@ -3,4 +3,17 @@
 streams:
   #rigel_logi: ffmpeg:device?video=/dev/video0&input_format=h264&video_size=1920x1280
   #entryway: ffmpeg:media.mp4#video=h264#hadware#width=1920#height=1080#rotate=0#audio=copy
-  entryway: ffmpeg:rtsp://hassio:opanae85@10.50.165.142/stream1#video=h264#hardware#audio=aac
+  entryway:
+    #- ffmpeg:device?video=/dev/video0&input_format=h264&video_size=1920x1080 # Source
+    - ffmpeg:device?video=/dev/video0&input_format=h264&video_size=1920x1080&framerate=30#hardware # Source
+    - rtsp://10.50.165.142:8554/stream
+    - ffmpeg:entryway#video=mjpeg#hardware
+
+ffmpeg:
+  bin: ffmpeg  # path to ffmpeg binary
+  h264: "-codec:v libx264 -g:v 30 -preset:v superfast -tune:v zerolatency -profile:v main -level:v 4.1"
+  myinput: "-fflags nobuffer -flags low_delay -timeout 5000000 -i {input}"
+
+rtsp:
+  listen: ":8554"
+  default_query: "video=h264&framerate=30&audio=opus"
