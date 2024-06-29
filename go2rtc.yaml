@@ -1,2 +1,6 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/AlexxIT/go2rtc/master/website/schema.json
+
 streams:
-  rigel_logi: ffmpeg:device?video=/dev/video0&input_format=h264&video_size=1920x1280
+  #rigel_logi: ffmpeg:device?video=/dev/video0&input_format=h264&video_size=1920x1280
+  #entryway: ffmpeg:media.mp4#video=h264#hadware#width=1920#height=1080#rotate=0#audio=copy
+  entryway: ffmpeg:rtsp://hassio:opanae85@10.50.165.142/stream1#video=h264#hardware#audio=aac
